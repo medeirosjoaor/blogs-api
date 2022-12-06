@@ -5,6 +5,7 @@ const CategoryController = require('../controllers/category.controller');
 
 const router = express.Router();
 
+router.get('/categories', TokenMiddleware.validateToken, CategoryController.getAll);
 router.post(
   '/categories',
   TokenMiddleware.validateToken,

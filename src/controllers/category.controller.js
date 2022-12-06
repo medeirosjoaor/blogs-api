@@ -12,6 +12,17 @@ async function create(request, response) {
   }
 }
 
+async function getAll(_, response) {
+  try {
+    const categories = await CategoryService.getAll();
+
+    return response.status(200).send(categories);
+  } catch ({ message }) {
+    return response.status(500).send({ message });
+  }
+}
+
 module.exports = {
   create,
+  getAll,
 };
