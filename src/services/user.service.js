@@ -9,6 +9,11 @@ async function findByEmail(email) {
   return user;
 }
 
+async function create({ displayName, email, image, password }) {
+  await User.create({ displayName, email, image, password });
+}
+
 module.exports = {
   findByEmail,
+  create,
 };

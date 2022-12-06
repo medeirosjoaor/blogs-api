@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const UserService = require('../services/user.service');
 
 const secret = process.env.JWT_SECRET || 'Travis Scott';
 const options = {
@@ -18,6 +19,21 @@ async function findByEmail(request, response) {
   }
 }
 
+async function create(request, response) {
+  try {
+    const { body: { displayName, email, image, password } } = request;
+
+    await UserService.create({ displayName, email, image, password });
+
+    const token = jwt.sign({ displayName, email, image }, secret, options);
+
+    return response.status(201).send({ token });
+  } catch ({ message }) {
+    return response.status(500).send({ message });
+  }
+}
+
 module.exports = {
   findByEmail,
+  create,
 };
