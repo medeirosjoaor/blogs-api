@@ -11,7 +11,11 @@ async function findByEmail(request, response) {
   try {
     const { body: { email } } = request;
 
-    const token = jwt.sign({ email }, secret, options);
+    const { dataValues } = await UserService.findByEmail(email);
+
+    delete dataValues.password;
+
+    const token = jwt.sign(dataValues, secret, options);
 
     return response.status(200).send({ token });
   } catch ({ message }) {
@@ -23,9 +27,11 @@ async function create(request, response) {
   try {
     const { body: { displayName, email, image, password } } = request;
 
-    await UserService.create({ displayName, email, image, password });
+    const { dataValues } = await UserService.create({ displayName, email, image, password });
 
-    const token = jwt.sign({ displayName, email, image }, secret, options);
+    delete dataValues.password;
+
+    const token = jwt.sign(dataValues, secret, options);
 
     return response.status(201).send({ token });
   } catch ({ message }) {
@@ -33,7 +39,14 @@ async function create(request, response) {
   }
 }
 
+async function getAll(request, response) {
+  const users = await UserService.getAll();
+
+  return response.status(200).send(users);
+}
+
 module.exports = {
   findByEmail,
   create,
+  getAll,
 };

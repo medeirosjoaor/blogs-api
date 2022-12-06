@@ -10,10 +10,19 @@ async function findByEmail(email) {
 }
 
 async function create({ displayName, email, image, password }) {
-  await User.create({ displayName, email, image, password });
+  const user = await User.create({ displayName, email, image, password });
+
+  return user;
+}
+
+async function getAll() {
+  const users = await User.findAll({ attributes: { exclude: ['password'] } });
+
+  return users;
 }
 
 module.exports = {
   findByEmail,
   create,
+  getAll,
 };
