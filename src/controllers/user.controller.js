@@ -45,8 +45,21 @@ async function getAll(request, response) {
   return response.status(200).send(users);
 }
 
+async function findById(request, response) {
+  const { params: { id } } = request;
+
+  const user = await UserService.findById(id);
+
+  if (!user) {
+    return response.status(404).send({ message: 'User does not exist' });
+  }
+
+  return response.status(200).send(user);
+}
+
 module.exports = {
   findByEmail,
   create,
   getAll,
+  findById,
 };

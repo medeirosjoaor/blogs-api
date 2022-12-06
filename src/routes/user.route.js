@@ -6,6 +6,7 @@ const UserController = require('../controllers/user.controller');
 const router = express.Router();
 
 router.get('/user', TokenMiddleware.validateToken, UserController.getAll);
+router.get('/user/:id', TokenMiddleware.validateToken, UserController.findById);
 router.post('/login', UserMiddleware.validateLogin, UserController.findByEmail);
 router.post(
   '/user',
