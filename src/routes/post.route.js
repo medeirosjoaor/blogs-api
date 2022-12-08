@@ -11,9 +11,18 @@ router.get('/post/:id', TokenMiddleware.validateToken, PostCategoryController.fi
 router.post(
   '/post',
   TokenMiddleware.validateToken,
-  PostCategoryMiddleware.validateFields,
+  PostCategoryMiddleware.validateTitle,
+  PostCategoryMiddleware.validateContent,
   PostCategoryMiddleware.validateCategoryIds,
   PostController.create,
+);
+router.put(
+  '/post/:id',
+  TokenMiddleware.validateToken,
+  TokenMiddleware.validateUser,
+  PostCategoryMiddleware.validateTitle,
+  PostCategoryMiddleware.validateContent,
+  PostCategoryController.update,
 );
 
 module.exports = router;

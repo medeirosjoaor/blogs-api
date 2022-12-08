@@ -36,8 +36,15 @@ async function findById(id) {
   return post;
 }
 
+async function update({ id, title, content }) {
+  const post = BlogPost.update({ title, content }, { where: { id } });
+
+  return post;
+}
+
 module.exports = {
   create,
   getAll,
   findById,
+  update,
 };

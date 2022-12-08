@@ -1,9 +1,19 @@
 const CategoryService = require('../services/category.service');
 
-function validateFields(request, response, next) {
-  const { body: { title, content, categoryIds } } = request;
+function validateTitle(request, response, next) {
+  const { body: { title } } = request;
 
-  if (!title || !content || !categoryIds) {
+  if (!title) {
+    return response.status(400).send({ message: 'Some required fields are missing' });
+  }
+
+  next();
+}
+
+function validateContent(request, response, next) {
+  const { body: { content } } = request;
+
+  if (!content) {
     return response.status(400).send({ message: 'Some required fields are missing' });
   }
 
@@ -12,6 +22,10 @@ function validateFields(request, response, next) {
 
 async function validateCategoryIds(request, response, next) {
   const { body: { categoryIds } } = request;
+
+  if (!categoryIds) {
+    return response.status(400).send({ message: 'Some required fields are missing' });
+  }
 
   const categories = await Promise.all(categoryIds.map(async (categoryId) => {
     const category = await CategoryService.findyById(categoryId);
@@ -27,6 +41,7 @@ async function validateCategoryIds(request, response, next) {
 }
 
 module.exports = {
-  validateFields,
+  validateTitle,
+  validateContent,
   validateCategoryIds,
 };

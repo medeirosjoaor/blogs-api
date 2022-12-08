@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const UserService = require('../services/user.service');
+const PostCategoryService = require('../services/postCategory.service');
 
 const secret = process.env.JWT_SECRET || 'Travis Scott';
 
@@ -27,6 +28,20 @@ async function validateToken(request, response, next) {
   }
 }
 
+async function validateUser(request, response, next) {
+  const { params: { id } } = request;
+  const { user } = request;
+  
+  const [post] = await PostCategoryService.findById(id);
+
+  if (user.id !== post.userId) {
+    return response.status(401).send({ message: 'Unauthorized user' });
+  }
+
+  next();
+}
+
 module.exports = {
   validateToken,
+  validateUser,
 };

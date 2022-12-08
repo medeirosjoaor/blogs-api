@@ -26,7 +26,22 @@ async function findById(request, response) {
   }
 }
 
+async function update(request, response) {
+  try {
+    const { body: { title, content }, params: { id } } = request;
+  
+    await PostCategoryService.update({ id, title, content });
+  
+    const [post] = await PostCategoryService.findById(id);
+  
+    return response.status(200).send(post);
+  } catch ({ message }) {
+    return response.status(500).send({ message });
+  }
+}
+
 module.exports = {
   getAll,
   findById,
+  update,
 };
