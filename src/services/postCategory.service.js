@@ -24,7 +24,20 @@ async function getAll() {
   return posts;
 }
 
+async function findById(id) {
+  const post = await BlogPost.findAll({
+    include: [
+      { as: 'user', attributes: { exclude: ['password'] }, model: User },
+      { as: 'categories', model: Category, through: { attributes: [] } },
+    ],
+    where: { id },
+  });
+
+  return post;
+}
+
 module.exports = {
   create,
   getAll,
+  findById,
 };

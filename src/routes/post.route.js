@@ -7,6 +7,7 @@ const PostCategoryController = require('../controllers/postCategory.controller')
 const router = express.Router();
 
 router.get('/post', TokenMiddleware.validateToken, PostCategoryController.getAll);
+router.get('/post/:id', TokenMiddleware.validateToken, PostCategoryController.findById);
 router.post(
   '/post',
   TokenMiddleware.validateToken,
