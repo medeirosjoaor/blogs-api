@@ -10,7 +10,7 @@ function PostCategoryModel(sequelize, DataTypes) {
     }
   },
   {
-    tableName: 'users',
+    tableName: 'posts_categories',
     timestamps: false,
     underscored: true,
   });

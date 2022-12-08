@@ -13,11 +13,13 @@ async function validateToken(request, response, next) {
   try {
     const { email } = jwt.verify(token, secret);
 
-    const user = UserService.findByEmail(email);
+    const { dataValues } = await UserService.findByEmail(email);
 
-    if (!user) {
+    if (!dataValues) {
       return response.status(401).send({ message: 'Expired or invalid token' });
     }
+
+    request.user = dataValues;
 
     next();
   } catch (_) {
