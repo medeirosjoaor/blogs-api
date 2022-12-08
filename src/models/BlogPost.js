@@ -5,9 +5,9 @@ function BlogPostModel(sequelize, DataTypes) {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    userId: { type: DataTypes.INTEGER, foreignKey: true },
     title: DataTypes.STRING,
     content: DataTypes.STRING,
+    userId: { type: DataTypes.INTEGER, foreignKey: true },
     published: DataTypes.DATE,
     updated: DataTypes.DATE
   },
@@ -19,7 +19,7 @@ function BlogPostModel(sequelize, DataTypes) {
 
   BlogPost.associate = (models) => {
     BlogPost.belongsTo(models.User, {
-      foreignKey: 'userId', as: 'users'
+      foreignKey: 'userId', as: 'user'
     });
   };
 
