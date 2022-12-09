@@ -57,9 +57,22 @@ async function findById(request, response) {
   return response.status(200).send(user);
 }
 
+async function destroy(request, response) {
+  try {
+    const { user: { id } } = request;
+
+    await UserService.destroy(id);
+  
+    return response.status(204).end();
+  } catch ({ message }) {
+    return response.status(500).send(message);
+  }
+}
+
 module.exports = {
   findByEmail,
   create,
   getAll,
   findById,
+  destroy,
 };

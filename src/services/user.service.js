@@ -30,9 +30,14 @@ async function findById(id) {
   return user;
 }
 
+async function destroy(id) {
+  await User.destroy({ where: { id } });
+}
+
 module.exports = {
   findByEmail,
   create,
   getAll,
   findById,
+  destroy,
 };
