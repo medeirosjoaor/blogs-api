@@ -16,6 +16,19 @@ async function create(request, response) {
   }
 }
 
+async function destroy(request, response) {
+  try {
+    const { params: { id } } = request;
+
+    await PostService.destroy(id);
+
+    return response.status(204).end();
+  } catch ({ message }) {
+    return response.status(500).send({ message });
+  }
+}
+
 module.exports = {
   create,
+  destroy,
 };

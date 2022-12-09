@@ -8,6 +8,18 @@ async function create({ userId, title, content }) {
   return post;
 }
 
+async function destroy(id) {
+  await BlogPost.destroy({ where: { id } });
+}
+
+async function findById(id) {
+  const post = await BlogPost.findByPk(id);
+
+  return post;
+}
+
 module.exports = {
   create,
+  destroy,
+  findById,
 };

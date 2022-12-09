@@ -1,6 +1,7 @@
 const express = require('express');
 const TokenMiddleware = require('../middlewares/token.middleware');
 const PostCategoryMiddleware = require('../middlewares/postCategory.middleware');
+const PostMiddleware = require('../middlewares/post.middleware');
 const PostController = require('../controllers/post.controller');
 const PostCategoryController = require('../controllers/postCategory.controller');
 
@@ -23,6 +24,13 @@ router.put(
   PostCategoryMiddleware.validateTitle,
   PostCategoryMiddleware.validateContent,
   PostCategoryController.update,
+);
+router.delete(
+  '/post/:id',
+  TokenMiddleware.validateToken,
+  PostMiddleware.validateId,
+  TokenMiddleware.validateUser,
+  PostController.destroy,
 );
 
 module.exports = router;
