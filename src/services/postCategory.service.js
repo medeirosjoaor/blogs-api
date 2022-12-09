@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 const { PostCategory } = require('../models');
 const { BlogPost } = require('../models');
 const { User } = require('../models');
@@ -24,6 +26,23 @@ async function getAll() {
   return posts;
 }
 
+async function getAllByName(q) {
+  const posts = await BlogPost.findAll({
+    include: [
+      { as: 'user', attributes: { exclude: ['password'] }, model: User },
+      { as: 'categories', model: Category, through: { attributes: [] } },
+    ],
+    where: { 
+      [Op.or]: [
+        { title: { [Op.like]: `%${q}%` } }, 
+        { content: { [Op.like]: `%${q}%` } },
+      ], 
+    },
+  });
+
+  return posts;
+}
+
 async function findById(id) {
   const post = await BlogPost.findAll({
     include: [
@@ -45,6 +64,7 @@ async function update({ id, title, content }) {
 module.exports = {
   create,
   getAll,
+  getAllByName,
   findById,
   update,
 };

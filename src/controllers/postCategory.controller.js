@@ -10,6 +10,18 @@ async function getAll(_, response) {
   }
 }
 
+async function getAllByName(request, response) {
+  try {
+    const { query: { q } } = request;
+
+    const posts = await PostCategoryService.getAllByName(q);
+
+    return response.status(200).send(posts);
+  } catch ({ message }) {
+    return response.status(500).send({ message });
+  }
+}
+
 async function findById(request, response) {
   try {
     const { params: { id } } = request;
@@ -42,6 +54,7 @@ async function update(request, response) {
 
 module.exports = {
   getAll,
+  getAllByName,
   findById,
   update,
 };
